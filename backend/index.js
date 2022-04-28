@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
+import postRoutes from "./routes/posts.js";
+
 const app = express();
+
+app.use("/posts", postRoutes);
 
 //para limitar el tamaño del envio de imagenes
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
