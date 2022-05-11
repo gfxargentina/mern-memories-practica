@@ -1,24 +1,25 @@
 import React from "react";
 
-const Post = () => {
+const Post = ({ post }) => {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
-        <img
-          src="https://api.lorem.space/image/shoes?w=400&h=225"
-          alt="Shoes"
-        />
+        <img src={post.selectedFile} alt={post.title} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
-          Shoes!
+          {post.title}
           <div className="badge badge-secondary">NEW</div>
         </h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <p> {post.message} </p>
+        <div className="badge badge-outline">{post.creator}</div>
         <div className="card-actions justify-end">
-          <div className="badge badge-outline">Fashion</div>
-          <div className="badge badge-outline">Products</div>
+          {/* <div className="badge badge-outline">Fashion</div> */}
+          {post.tags.map((tag) => `#${tag} `)}
         </div>
+      </div>
+      <div>
+        <button>Like {post.likeCount} </button>
       </div>
     </div>
   );

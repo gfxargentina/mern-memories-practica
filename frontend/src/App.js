@@ -15,19 +15,9 @@ function App() {
 
   return (
     <div className="flex p-10 justify-center">
-      <div className="flex">
-        <div className="p-4  grid grid-cols-2 gap-4">
-          <div>
-            <Posts />
-          </div>
-
-          <div>
-            <Post />
-          </div>
-
-          <div>
-            <Post />
-          </div>
+      <div className="flex gap-2">
+        <div className="p-4">
+          <Posts />
         </div>
 
         <div className="grid grid-cols-1">
