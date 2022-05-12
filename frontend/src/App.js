@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Form from "./components/Form/Form";
 import Posts from "./components/Posts/Posts";
@@ -7,21 +7,22 @@ import { getPosts } from "./actions/posts";
 import Post from "./components/Posts/Post/Post";
 
 function App() {
+  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [currentId, dispatch]);
 
   return (
     <div className="flex p-10 justify-center">
       <div className="flex gap-2">
         <div className="p-4">
-          <Posts />
+          <Posts setCurrentId={setCurrentId} />
         </div>
 
         <div className="grid grid-cols-1">
-          <Form />
+          <Form currentId={currentId} setCurrentId={setCurrentId} />
         </div>
       </div>
     </div>

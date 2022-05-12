@@ -1,6 +1,6 @@
 import React from "react";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -20,6 +20,10 @@ const Post = ({ post }) => {
       </div>
       <div>
         <button>Like {post.likeCount} </button>
+      </div>
+
+      <div>
+        <button onClick={() => setCurrentId(post._id)}>Edit</button>
       </div>
     </div>
   );
