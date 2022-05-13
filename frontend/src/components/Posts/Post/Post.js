@@ -1,6 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -24,6 +28,10 @@ const Post = ({ post, setCurrentId }) => {
 
       <div>
         <button onClick={() => setCurrentId(post._id)}>Edit</button>
+      </div>
+
+      <div>
+        <button onClick={() => dispatch(deletePost(post._id))}>Delete</button>
       </div>
     </div>
   );
