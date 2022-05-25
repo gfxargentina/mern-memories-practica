@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const user = null;
@@ -16,19 +17,29 @@ const Navbar = () => {
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
               />
             </svg>
           </label>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+        <Link to="/" className="btn btn-ghost normal-case text-xl">
+          daisyUI
+        </Link>
       </div>
 
       <div className="navbar-end">
-        <a className="btn"> {user ? "Hola luis" : <button>Login</button>} </a>
+        <a className="btn">
+          {user ? (
+            "Hola luis"
+          ) : (
+            <Link to="/auth">
+              <button>Login</button>
+            </Link>
+          )}
+        </a>
       </div>
     </div>
   );
