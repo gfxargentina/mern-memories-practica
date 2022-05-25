@@ -25,14 +25,14 @@ const Auth = () => {
             <>
               <div>
                 <input
-                  className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
+                  className="w-full mb-5 p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                   type="text"
                   name="name"
                   placeholder="Name"
                   handleChange={handleChange}
                 />
                 <input
-                  className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
+                  className="mb-5 w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                   type="text"
                   name="email"
                   placeholder="Email"
@@ -52,7 +52,7 @@ const Auth = () => {
             <>
               <div>
                 <input
-                  className="w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
+                  className="mb-5 w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"
                   type="text"
                   name="email"
                   placeholder="Email"
