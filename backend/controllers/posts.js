@@ -51,15 +51,33 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  //verifica si el usario esta autenticado, req.userId viene del middleware auth.js para saber que usuario es
+  if (!req.userId) return res.json({ message: "Unauthenticated" });
+
+  //verifica si existe el post que el usuario quiere modificar
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with that id");
 
   const post = await PostMessage.findById(id);
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  );
+
+  //para saber si el id del usuario ya esta en el post, esto quiere decir que ya tiene un like
+  //findIndex hace un loop por todos los id, cada like es el id del usuario especifico,
+  // con esto verifica quien le da like al post especifico
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  //si el post no tiene el id del usuario es -1, entonces le da un 1 like del usuario especifico
+  //si el post ya tiene el id, le saca el like del usuario
+  if (index === -1) {
+    //like the post
+    post.likes.push(req.userId);
+  } else {
+    //dislike a post
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
