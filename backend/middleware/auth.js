@@ -2,6 +2,9 @@ import jwt, { decode } from "jsonwebtoken";
 
 const auth = async (req, res, next) => {
   try {
+    if (!req.headers.authorization) {
+      return res.status(401).send("Unauthorized request");
+    }
     //traer el token del frontend
     const token = req.headers.authorization.split(" ")[1];
     //para cuando tenes 2 token, el tuyo y el de google
