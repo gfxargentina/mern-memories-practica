@@ -25,6 +25,7 @@ const Navbar = () => {
     if (token) {
       const decodedToken = decode(token);
 
+      //verifica la duracion del token, si ya paso mas de 1h ejecuta la funcion logout()
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
 
