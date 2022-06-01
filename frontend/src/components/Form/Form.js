@@ -7,7 +7,6 @@ import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -17,6 +16,8 @@ const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
+
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const dispatch = useDispatch();
 
@@ -28,9 +29,11 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.result?.name })
+      );
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     }
     clear();
   };
@@ -38,13 +41,20 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     });
   };
+
+  if (!user?.result?.name) {
+    return (
+      <div>
+        <h2> Please Sign In to create memories and like others memories</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="p-10 card w-96 bg-base-100 shadow-xl">
@@ -61,20 +71,6 @@ const Form = ({ currentId, setCurrentId }) => {
               setPostData({ ...postData, title: e.target.value })
             }
             placeholder="your title"
-            className="input input-bordered input-primary w-full max-w-xs"
-          />
-        </div>
-
-        <div className="mt-5">
-          <label htmlFor="">Creator</label>
-          <input
-            type="text"
-            name="creator"
-            value={postData.creator}
-            onChange={(e) =>
-              setPostData({ ...postData, creator: e.target.value })
-            }
-            placeholder="creator name"
             className="input input-bordered input-primary w-full max-w-xs"
           />
         </div>

@@ -3,9 +3,12 @@ import axios from "axios";
 //axios instance
 const API = axios.create({ baseURL: "http://localhost:5000" });
 
+//el interceptor sirve para pasarle al backend la autorizacion y pueda verificar el usuario, se ejecuta en c/u de las request
 API.interceptors.request.use((req) => {
+  //verifica que exista el usuario en el local storage con el token
   if (localStorage.getItem("profile")) {
-    req.headers.Authorization = `Bearer ${
+    //le agrega al request la autorizacion con el token para mandarle al backend
+    req.headers.authorization = `Bearer ${
       JSON.parse(localStorage.getItem("profile")).token
     }`;
   }

@@ -5,6 +5,29 @@ import { deletePost, likePost } from "../../../actions/posts";
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
 
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find(
+        (like) => like === (user?.result?.googleId || user?.result?._id)
+      ) ? (
+        <>
+          &nbsp;
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others like this post`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+        </>
+      );
+    }
+
+    return <>&nbsp;Like</>;
+  };
+
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -16,24 +39,34 @@ const Post = ({ post, setCurrentId }) => {
           <div className="badge badge-secondary">NEW</div>
         </h2>
         <p> {post.message} </p>
-        <div className="badge badge-outline">{post.creator}</div>
+        <div className="badge badge-outline">{post.name}</div>
         <div className="card-actions justify-end">
           {/* <div className="badge badge-outline">Fashion</div> */}
           {post.tags.map((tag) => `#${tag} `)}
         </div>
       </div>
       <div>
-        <button onClick={() => dispatch(likePost(post._id))}>
-          Like {post.likeCount}
+        <button
+          disabled={!user?.result}
+          onClick={() => dispatch(likePost(post._id))}
+        >
+          <Likes />
         </button>
       </div>
 
       <div>
-        <button onClick={() => setCurrentId(post._id)}>Edit</button>
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <button onClick={() => setCurrentId(post._id)}>Edit</button>
+        )}
       </div>
 
       <div>
-        <button onClick={() => dispatch(deletePost(post._id))}>Delete</button>
+        {/* verifica quien es el usuario logueado, recien muestra el boton si el usuario es el que creo el post */}
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <button onClick={() => dispatch(deletePost(post._id))}>Delete</button>
+        )}
       </div>
     </div>
   );
