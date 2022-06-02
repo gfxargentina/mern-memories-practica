@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 
 import { useDispatch } from "react-redux";
 import { getPosts } from "../actions/posts";
@@ -23,6 +24,15 @@ const Home = () => {
 
         <div className="grid grid-cols-1">
           <Form currentId={currentId} setCurrentId={setCurrentId} />
+
+          <div className="mt-5">
+            <ReactPaginate
+              previousLabel={"anterior"}
+              nextLabel={"siguiente"}
+              pageCount={"5"}
+              containerClassName={""}
+            />
+          </div>
         </div>
       </div>
     </div>
