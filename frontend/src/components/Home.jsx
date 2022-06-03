@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
 import { useDispatch } from "react-redux";
-import { getPosts } from "../actions/posts";
+import { getPostBySearch, getPosts } from "../actions/posts";
 
 import Form from "./Form/Form";
 import Posts from "./Posts/Posts";
@@ -32,7 +32,8 @@ const Home = () => {
 
   const searchPost = () => {
     if (search.trim()) {
-      //disptach logic for fetch search post
+      //no se puede pasar un array por parametros, entonces hay que convertilo a string con join
+      dispatch(getPostBySearch({ search, tags: tags.join(",") }));
     }
   };
 
