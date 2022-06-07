@@ -32,7 +32,7 @@ const Home = () => {
   const [seleccionarPagina, setSeleccionarPagina] = useState(1);
 
   const page = query.get("page") || 1;
-  //const searchQuery = query.get("searchQuery");
+  const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
   //const [categoria, setCategoria] = useState([]);
   const [tags, setTags] = useState([]);
@@ -110,27 +110,29 @@ const Home = () => {
           <Form currentId={currentId} setCurrentId={setCurrentId} />
 
           <div className="mt-5">
-            <ReactPaginate
-              previousLabel={"anterior"}
-              nextLabel={"siguiente"}
-              page={Number(page) || 1}
-              pageCount={Number(numberOfPages)}
-              onPageChange={changePage}
-              containerClassName={
-                "mt-5 mb-5 flex items-center flex-row justify-center"
-              }
-              previousLinkClassName={
-                "mr-3 p-2 rounded border border-blue-300 hover:border-blue-500"
-              }
-              nextLinkClassName={
-                "ml-3 p-2 rounded border border-blue-300 hover:border-blue-500"
-              }
-              pageClassName={
-                "mr-3 p-1 px-2 rounded border border-blue-300 hover:border-blue-700"
-              }
-              disabledLinkClassName={""}
-              activeClassName={"bg-cyan-600 text-white"}
-            />
+            {!searchQuery && !tags.length && (
+              <ReactPaginate
+                previousLabel={"anterior"}
+                nextLabel={"siguiente"}
+                page={Number(page) || 1}
+                pageCount={Number(numberOfPages)}
+                onPageChange={changePage}
+                containerClassName={
+                  "mt-5 mb-5 flex items-center flex-row justify-center"
+                }
+                previousLinkClassName={
+                  "mr-3 p-2 rounded border border-blue-300 hover:border-blue-500"
+                }
+                nextLinkClassName={
+                  "ml-3 p-2 rounded border border-blue-300 hover:border-blue-500"
+                }
+                pageClassName={
+                  "mr-3 p-1 px-2 rounded border border-blue-300 hover:border-blue-700"
+                }
+                disabledLinkClassName={""}
+                activeClassName={"bg-cyan-600 text-white"}
+              />
+            )}
           </div>
         </div>
       </div>
