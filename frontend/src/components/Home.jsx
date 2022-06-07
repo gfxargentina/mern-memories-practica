@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import Select from "react-select";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPostBySearch, getPosts } from "../actions/posts";
 
 import Form from "./Form/Form";
@@ -24,24 +24,25 @@ const categorias = [
 
 const Home = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
+  const dispatch = useDispatch();
+  const { numberOfPages } = useSelector((state) => state.posts);
   const query = useQuery();
 
+  const [seleccionarPagina, setSeleccionarPagina] = useState(1);
+
   const page = query.get("page") || 1;
-  const searchQuery = query.get("searchQuery");
+  //const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
-  const [categoria, setCategoria] = useState([]);
+  //const [categoria, setCategoria] = useState([]);
   const [tags, setTags] = useState([]);
   //console.log(categoria);
 
   const [currentId, setCurrentId] = useState(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
-  useEffect(() => {}, [categoria]);
+    if (seleccionarPagina) dispatch(getPosts(seleccionarPagina));
+  }, [seleccionarPagina, dispatch]);
 
   //cuando se tiene un array de state, primero se usa el spread operator para añadir los tags previos
   //y despues se agrega el tag nuevo al array
@@ -67,14 +68,8 @@ const Home = () => {
     setTags([categ.categoria]);
   };
 
-  const handleKeyPress = (e) => {
-    //si aprieta la tecla enter realiza la busqueda
-    if (e.key === 13) {
-      //search post
-      searchPost();
-    } else {
-      navigate("/");
-    }
+  const changePage = ({ selected }) => {
+    setSeleccionarPagina(selected + 1);
   };
 
   return (
@@ -115,12 +110,27 @@ const Home = () => {
           <Form currentId={currentId} setCurrentId={setCurrentId} />
 
           <div className="mt-5">
-            {/* <ReactPaginate
+            <ReactPaginate
               previousLabel={"anterior"}
               nextLabel={"siguiente"}
-              // pageCount={"5"}
-              containerClassName={""}
-            /> */}
+              page={Number(page) || 1}
+              pageCount={Number(numberOfPages)}
+              onPageChange={changePage}
+              containerClassName={
+                "mt-5 mb-5 flex items-center flex-row justify-center"
+              }
+              previousLinkClassName={
+                "mr-3 p-2 rounded border border-blue-300 hover:border-blue-500"
+              }
+              nextLinkClassName={
+                "ml-3 p-2 rounded border border-blue-300 hover:border-blue-500"
+              }
+              pageClassName={
+                "mr-3 p-1 px-2 rounded border border-blue-300 hover:border-blue-700"
+              }
+              disabledLinkClassName={""}
+              activeClassName={"bg-cyan-600 text-white"}
+            />
           </div>
         </div>
       </div>
