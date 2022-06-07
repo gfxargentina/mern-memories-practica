@@ -11,6 +11,26 @@ export const getPosts = async (req, res) => {
   }
 };
 
+export const getPostBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+
+  console.log(tags);
+
+  try {
+    const title = new RegExp(searchQuery, "i");
+
+    //encuentra todos los posts que matchean 1 o 2 de los criterios dados $or, title or tags
+    //$in, significa, hay algun tag en el array de tags de la bd que coincida, split separa la query y la convierte en un array
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const createPost = async (req, res) => {
   const post = req.body;
   const newPost = new PostMessage({
