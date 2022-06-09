@@ -20,7 +20,7 @@ const PostDetails = () => {
   }
 
   return (
-    <section>
+    <section className="container mx-auto">
       <div className="card lg:card-side bg-base-100 shadow-xl">
         <figure>
           <img src={post.selectedFile} alt="Album" />
