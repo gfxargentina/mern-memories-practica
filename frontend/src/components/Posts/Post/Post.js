@@ -1,9 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { deletePost, likePost } from "../../../actions/posts";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -28,15 +30,22 @@ const Post = ({ post, setCurrentId }) => {
     return <>&nbsp;Like</>;
   };
 
+  const openPost = () => {
+    navigate(`/posts/${post._id}`);
+  };
+
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div
+      onClick={openPost}
+      className="card w-96 bg-base-100 shadow-xl cursor-pointer"
+    >
       <figure>
         <img src={post.selectedFile} alt={post.title} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
           {post.title}
-          <div className="badge badge-secondary">NEW</div>
+          <div className="badge badge-secondary">NUEVO</div>
         </h2>
         <p> {post.message} </p>
         <div className="badge badge-outline">{post.name}</div>
