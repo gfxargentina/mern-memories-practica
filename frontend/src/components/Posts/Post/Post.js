@@ -35,14 +35,11 @@ const Post = ({ post, setCurrentId }) => {
   };
 
   return (
-    <div
-      onClick={openPost}
-      className="card w-96 bg-base-100 shadow-xl cursor-pointer"
-    >
+    <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
         <img src={post.selectedFile} alt={post.title} />
       </figure>
-      <div className="card-body">
+      <div onClick={openPost} className="card-body cursor-pointer">
         <h2 className="card-title">
           {post.title}
           <div className="badge badge-secondary">NUEVO</div>

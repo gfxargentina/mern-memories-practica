@@ -39,7 +39,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostBySearch = async (req, res) => {
   const { searchQuery, tags } = req.query;
-
+  console.log(searchQuery);
   console.log(tags);
 
   try {

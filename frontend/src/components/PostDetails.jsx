@@ -1,23 +1,35 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getPost } from "../actions/posts";
+import { useParams, useNavigate } from "react-router-dom";
+import { getPost, getPostBySearch } from "../actions/posts";
 import Spinner from "./Spinner";
 
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
+
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getPost(id));
   }, [id, dispatch]);
+
+  useEffect(() => {
+    if (post) {
+      dispatch(getPostBySearch({ search: "none", tags: post?.tags.join(",") }));
+    }
+  }, [post, dispatch]);
 
   if (!post) return null;
 
   if (isLoading) {
     return <Spinner />;
   }
+
+  //hace un filtro para que el post que esta viendo el usuario no aparezca en los post recomendados
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+  console.log(recommendedPosts);
 
   return (
     <section className="container mx-auto">
@@ -33,6 +45,22 @@ const PostDetails = () => {
           </div>
         </div>
       </div>
+      {/* si hay post recomendados */}
+      {recommendedPosts.length && (
+        // mostrar lo siguiente
+        <div>
+          <h2>Tambien le puede gustar</h2>
+          <div>
+            {/* hace una desestructuracion de lo que queres mostrar en los posts recomendados */}
+            {recommendedPosts.map(
+              ({ title, message, name, likes, selectedFile, _id }) => (
+                <div key={_id}>{title}</div>
+              )
+            )}
+          </div>
+        </div>
+      )}
+      <div></div>
     </section>
   );
 };
